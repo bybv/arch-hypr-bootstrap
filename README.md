@@ -43,6 +43,7 @@ arch-hypr-bootstrap/
 │   └── archinstall.json              # OS install config
 ├── bootstrap-base.sh                 # post-install provisioning (idempotent)
 ├── bootstrap-apps.sh                 # role-based app bundles
+├── bootstrap-check.sh                # post-provision health check
 ├── pkglists/
 │   ├── base.txt                      # pacman: desktop base
 │   ├── hw-thinkpad.txt               # pacman: ThinkPad-specific
@@ -89,12 +90,24 @@ arch-hypr-bootstrap/
 
 ## Phase 1: Install (archinstall)
 
+### BIOS prep (do this first)
+
+On all three X1 Carbons, before booting the USB:
+
+- **Disable Secure Boot.** This setup runs GRUB without a signed shim; with
+  Secure Boot on it won't boot. (BIOS → Security → Secure Boot → Disabled.)
+- **Set the storage controller to AHCI, not RAID/RST.** In RAID mode the
+  installer can't see the NVMe drive at all. (BIOS → Config → Storage.)
+- **Gen 13 only:** update to the latest UEFI firmware first — Lunar Lake
+  platforms get meaningful early firmware fixes. (Can also be done later with
+  `fwupdmgr update`.)
+
 ### Boot the live USB
 
 1. Get latest Arch ISO, write to USB (`dd` or Ventoy).
 2. Boot, get networking (`iwctl` for wifi if needed).
 3. Sync time: `timedatectl set-ntp true`.
-4. Clone this repo: `pacman -Sy git && git clone <your-repo-url> /tmp/bootstrap`
+4. Clone this repo: `pacman -Sy git && git clone https://github.com/bybv/arch-hypr-bootstrap /tmp/bootstrap`
 
 ### Run archinstall with the saved config
 
@@ -123,6 +136,13 @@ JSON.
 
 **Fill in before use:** `hostname`, `timezone`. The disk gets selected
 interactively; don't hardcode it.
+
+> **Kernels:** the config installs both `linux` and `linux-lts`. `linux-lts` is
+> your fallback — if a `linux` update ever fails to boot, pick the LTS entry in
+> GRUB and you're back. Caveat for the **Gen 13 (Lunar Lake)**: very new
+> hardware can need a kernel newer than LTS, so `linux` is the daily driver
+> there; if LTS won't boot on the Gen 13, rely on grub-btrfs snapshots for
+> recovery instead.
 
 ### What you get after archinstall
 
@@ -164,9 +184,17 @@ arrow-key menu to pick your SSID and enter the password, no syntax to memorize.
 `Super+W` handles wifi from then on.)
 
 ```bash
-git clone <your-repo-url> ~/repos/arch-hypr-bootstrap
+git clone https://github.com/bybv/arch-hypr-bootstrap ~/repos/arch-hypr-bootstrap
 cd ~/repos/arch-hypr-bootstrap
 ./bootstrap-base.sh
+```
+
+When it finishes, reboot and log in on tty1 (Hyprland autostarts). Then confirm
+the machine is healthy — services enabled, dotfiles linked, both kernels and the
+GRUB snapshot entries present:
+
+```bash
+./bootstrap-check.sh
 ```
 
 ---
@@ -386,7 +414,7 @@ sudo pacman -S github-cli
 gh auth login
 # choose: GitHub.com → HTTPS → Yes (Git auth) → Login with web browser
 # enter the one-time code shown at github.com/login/device
-git clone https://github.com/<you>/arch-hypr-bootstrap ~/repos/arch-hypr-bootstrap
+git clone https://github.com/bybv/arch-hypr-bootstrap ~/repos/arch-hypr-bootstrap
 ```
 
 After this, all `git` operations on private repos work without SSH keys. SSH
