@@ -13,6 +13,3 @@ calf
 
 # Visual patchbay for routing audio between apps and devices
 qpwgraph
-
-# After installing this list, add yourself to the realtime group and re-login:
-#   sudo usermod -aG realtime $USER

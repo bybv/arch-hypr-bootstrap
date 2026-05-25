@@ -1,4 +1,3 @@
-# Optional dev extras — install per-machine when needed.
 # github-cli
 # docker
 # docker-compose
