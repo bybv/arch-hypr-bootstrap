@@ -157,6 +157,12 @@ It's **idempotent**: safe to re-run after fixing a failure mid-way.
 
 ### How to run
 
+**Get online first.** NetworkManager is running but not yet connected, and this
+step needs the network. On the bare TTY the cleanest option is `nmtui` — an
+arrow-key menu to pick your SSID and enter the password, no syntax to memorize.
+(Ethernet or a USB-C dongle connects with nothing to type. Once Hyprland is up,
+`Super+W` handles wifi from then on.)
+
 ```bash
 git clone <your-repo-url> ~/repos/arch-hypr-bootstrap
 cd ~/repos/arch-hypr-bootstrap
