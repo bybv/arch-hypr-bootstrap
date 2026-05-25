@@ -3,7 +3,7 @@
   "audio_config": { "audio": "pipewire" },
   "bootloader": "grub",
   "hostname": "x1c",
-  "kernels": ["linux"],
+  "kernels": ["linux", "linux-lts"],
   "locale_config": {
     "kb_layout": "us",
     "sys_enc": "UTF-8",
