@@ -47,9 +47,14 @@ arch-hypr-bootstrap/
 │   ├── base.txt                      # pacman: desktop base
 │   ├── hw-thinkpad.txt               # pacman: ThinkPad-specific
 │   ├── aur-base.txt                  # AUR: base extras
-│   ├── apps-browser.txt              # browsers
-│   ├── apps-dev.txt                  # dev tools
-│   └── apps-media.txt                # media tools
+│   ├── apps-browser.txt              # pacman: browsers
+│   ├── apps-browser-aur.txt          # AUR: browsers (placeholder)
+│   ├── apps-dev.txt                  # pacman: dev tools
+│   ├── apps-dev-extras.txt           # pacman: dev extras (placeholder)
+│   ├── apps-media.txt                # pacman: media tools
+│   ├── apps-editor.txt               # pacman: editors
+│   ├── apps-utils.txt                # pacman: utilities (keepassxc, syncthing)
+│   └── apps-audio.txt                # pacman: audio production / DJ
 ├── dotfiles/                         # stow packages
 │   ├── hypr/.config/hypr/
 │   │   ├── hyprland.conf
