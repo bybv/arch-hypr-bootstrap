@@ -1,0 +1,18 @@
+# DJ / audio production
+mixxx
+
+# JACK compatibility for pro audio apps and plugins
+pipewire-jack
+
+# Low-latency audio scheduling (adds 'realtime' group; user must join it)
+realtime-privileges
+
+# LV2/LADSPA plugin packs (mixxx can use LV2 plugins as effects)
+lsp-plugins-lv2
+calf
+
+# Visual patchbay for routing audio between apps and devices
+qpwgraph
+
+# After installing this list, add yourself to the realtime group and re-login:
+#   sudo usermod -aG realtime $USER

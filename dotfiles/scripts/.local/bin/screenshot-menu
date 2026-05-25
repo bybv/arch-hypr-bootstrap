@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Screenshot menu via fuzzel + grim/slurp.
+set -eu
+
+dir="${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots"
+mkdir -p "$dir"
+ts=$(date +%Y%m%d-%H%M%S)
+file="$dir/screenshot-$ts.png"
+
+choice=$(printf '%s\n' \
+    "region → clipboard" \
+    "region → file" \
+    "region → annotate (satty)" \
+    "full screen → clipboard" \
+    "full screen → file" \
+    "active window → file" \
+    | fuzzel --dmenu --prompt='shot> ' --lines=6)
+
+case "$choice" in
+    "region → clipboard")
+        grim -g "$(slurp)" - | wl-copy
+        notify-send "Screenshot" "Region copied to clipboard"
+        ;;
+    "region → file")
+        grim -g "$(slurp)" "$file"
+        notify-send "Screenshot" "Saved: $file"
+        ;;
+    "region → annotate (satty)")
+        # Capture, then open satty for highlight/circle/arrow markup.
+        # Inside satty: copy goes to clipboard, save writes to file.
+        grim -g "$(slurp)" - \
+            | satty -f - \
+                --copy-command wl-copy \
+                --output-filename "$file"
+        ;;
+    "full screen → clipboard")
+        grim - | wl-copy
+        notify-send "Screenshot" "Full screen copied"
+        ;;
+    "full screen → file")
+        grim "$file"
+        notify-send "Screenshot" "Saved: $file"
+        ;;
+    "active window → file")
+        geom=$(hyprctl activewindow -j \
+            | grep -E '"at"|"size"' \
+            | tr -d ' ,"' \
+            | awk -F: 'NR==1{x=$2;y=$3} NR==2{print x","y" "$2"x"$3}')
+        grim -g "$geom" "$file"
+        notify-send "Screenshot" "Saved: $file"
+        ;;
+    *) exit 0 ;;
+esac

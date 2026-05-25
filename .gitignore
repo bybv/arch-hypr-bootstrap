@@ -1,0 +1,6 @@
+# Per-machine Hyprland delta (untracked; sourced from hyprland.conf)
+dotfiles/hypr/.config/hypr/host.conf
+
+# Per-host override env files — keep only the example
+host-overrides/*.env
+!host-overrides/x1c-example.env

@@ -1,0 +1,94 @@
+# Compositor + Wayland session
+hyprland
+xdg-desktop-portal
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
+qt5-wayland
+qt6-wayland
+
+# Hyprland ecosystem
+hyprpaper
+hypridle
+hyprlock
+hyprsunset
+
+# Bar / launcher / notifications / clipboard
+waybar
+fuzzel
+mako
+cliphist
+wl-clipboard
+
+# Terminal + shell + TUI
+foot
+fish
+yazi
+
+# File manager (GUI)
+thunar
+thunar-volman
+thunar-archive-plugin
+tumbler
+gvfs
+gvfs-mtp
+udiskie
+
+# Auth / mounting
+udisks2
+polkit-gnome
+
+# Audio
+pipewire
+pipewire-alsa
+pipewire-pulse
+wireplumber
+pavucontrol
+
+# Bluetooth
+bluez
+bluez-utils
+blueman
+
+# Media keys / brightness
+brightnessctl
+pamixer
+playerctl
+
+# Networking
+networkmanager
+nm-connection-editor
+
+# Screenshot
+grim
+slurp
+
+# Fonts
+ttf-dejavu
+ttf-jetbrains-mono-nerd
+noto-fonts
+noto-fonts-cjk
+noto-fonts-emoji
+
+# Snapshots
+snapper
+snap-pac
+grub-btrfs
+
+# Tooling needed by bootstrap + daily life
+git
+stow
+man-db
+man-pages
+less
+unzip
+zip
+p7zip
+wget
+curl
+rsync
+htop
+usbutils
+pciutils
+libnotify
+jq
+swayosd

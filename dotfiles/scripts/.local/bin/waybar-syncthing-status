@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Waybar custom module: Syncthing daemon + folder + peer health.
+# Output: JSON {text, tooltip, class}.
+set -eu
+
+# Locate config.xml (newer syncthing uses XDG_STATE_HOME)
+for candidate in \
+    "${XDG_STATE_HOME:-$HOME/.local/state}/syncthing/config.xml" \
+    "${XDG_CONFIG_HOME:-$HOME/.config}/syncthing/config.xml"; do
+    if [ -f "$candidate" ]; then
+        CONFIG="$candidate"
+        break
+    fi
+done
+
+if [ -z "${CONFIG:-}" ]; then
+    printf '{"text": "?", "tooltip": "Syncthing not configured", "class": "down"}\n'
+    exit 0
+fi
+
+API_KEY=$(grep -oP '(?<=<apikey>)[^<]+' "$CONFIG" || true)
+if [ -z "$API_KEY" ]; then
+    printf '{"text": "?", "tooltip": "Syncthing API key not found", "class": "down"}\n'
+    exit 0
+fi
+
+API="http://localhost:8384/rest"
+HDR="X-API-Key: $API_KEY"
+
+# Daemon up?
+if ! curl -sf -m 2 -H "$HDR" "$API/system/status" >/dev/null; then
+    printf '{"text": "✗", "tooltip": "Syncthing daemon not running", "class": "down"}\n'
+    exit 0
+fi
+
+# Connections
+PEERS=$(curl -sf -H "$HDR" "$API/system/connections" \
+    | jq '[.connections[] | select(.connected == true)] | length')
+
+# Folder states — syncing/scanning/error/idle
+FOLDERS=$(curl -sf -H "$HDR" "$API/config" | jq -r '.folders[].id')
+HAS_ERROR=0
+HAS_SYNCING=0
+HAS_SCANNING=0
+ERROR_FOLDERS=""
+
+for f in $FOLDERS; do
+    state=$(curl -sf -H "$HDR" "$API/db/status?folder=$f" | jq -r '.state')
+    case "$state" in
+        error)    HAS_ERROR=1; ERROR_FOLDERS+="$f " ;;
+        syncing)  HAS_SYNCING=1 ;;
+        scanning) HAS_SCANNING=1 ;;
+    esac
+done
+
+# Decide overall state
+if [ "$HAS_ERROR" -eq 1 ]; then
+    printf '{"text": "✗", "tooltip": "Syncthing errors: %s", "class": "error"}\n' "$ERROR_FOLDERS"
+elif [ "$PEERS" -eq 0 ]; then
+    printf '{"text": "⚠", "tooltip": "Syncthing: no peers connected", "class": "warn"}\n'
+elif [ "$HAS_SYNCING" -eq 1 ] || [ "$HAS_SCANNING" -eq 1 ]; then
+    printf '{"text": "⟳", "tooltip": "Syncthing: syncing (%s peers)", "class": "sync"}\n' "$PEERS"
+else
+    printf '{"text": "✓", "tooltip": "Syncthing: idle (%s peers)", "class": "ok"}\n' "$PEERS"
+fi

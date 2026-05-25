@@ -1,0 +1,5 @@
+mpv
+imv
+zathura
+zathura-pdf-mupdf
+yt-dlp

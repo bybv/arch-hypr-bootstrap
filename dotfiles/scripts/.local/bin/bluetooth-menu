@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Bluetooth menu via fuzzel + bluetoothctl.
+# Lists paired devices with status, lets you connect/disconnect, scan & pair new.
+set -eu
+
+powered=$(bluetoothctl show | awk '/Powered:/ {print $2}')
+if [ "$powered" != "yes" ]; then
+    bluetoothctl power on >/dev/null
+fi
+
+mapfile -t devices < <(bluetoothctl devices Paired | awk '{$1=""; print substr($0,2)}')
+menu=""
+for d in "${devices[@]}"; do
+    mac=$(bluetoothctl devices Paired | grep -F "$d" | awk '{print $2}')
+    connected=$(bluetoothctl info "$mac" 2>/dev/null | awk '/Connected:/ {print $2}')
+    [ "$connected" = "yes" ] && status="●" || status="○"
+    menu+="$status $d"$'\n'
+done
+menu+="⟳ scan for new devices"$'\n'
+menu+="⏻ power off bluetooth"
+
+choice=$(printf '%s' "$menu" | fuzzel --dmenu --prompt='bt> ')
+[ -z "$choice" ] && exit 0
+
+case "$choice" in
+    "⟳ scan for new devices")
+        notify-send "Bluetooth" "Scanning 10s..."
+        bluetoothctl --timeout 10 scan on >/dev/null
+        mapfile -t found < <(bluetoothctl devices | awk '{$1=""; print substr($0,2)}')
+        pick=$(printf '%s\n' "${found[@]}" | fuzzel --dmenu --prompt='pair> ')
+        [ -z "$pick" ] && exit 0
+        mac=$(bluetoothctl devices | grep -F "$pick" | awk '{print $2}')
+        bluetoothctl trust "$mac" >/dev/null
+        bluetoothctl pair "$mac" && bluetoothctl connect "$mac"
+        ;;
+    "⏻ power off bluetooth")
+        bluetoothctl power off >/dev/null
+        ;;
+    *)
+        name="${choice#* }"
+        mac=$(bluetoothctl devices Paired | grep -F "$name" | awk '{print $2}')
+        if [[ "$choice" == ●* ]]; then
+            bluetoothctl disconnect "$mac" >/dev/null
+            notify-send "Bluetooth" "Disconnected: $name"
+        else
+            bluetoothctl connect "$mac" >/dev/null \
+                && notify-send "Bluetooth" "Connected: $name" \
+                || notify-send "Bluetooth" "Failed to connect: $name"
+        fi
+        ;;
+esac

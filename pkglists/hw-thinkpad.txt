@@ -1,0 +1,17 @@
+# X1 Carbon hardware support
+intel-ucode
+intel-media-driver
+libva-utils
+mesa
+vulkan-intel
+
+# Power / thermal
+tlp
+tlp-rdw
+thermald
+
+# Firmware updates (LVFS)
+fwupd
+
+# Optional fingerprint reader (uncomment if your model has one)
+# fprintd

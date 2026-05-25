@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# WiFi menu via fuzzel + nmcli.
+set -eu
+
+if [ "$(nmcli radio wifi)" = "disabled" ]; then
+    nmcli radio wifi on
+    sleep 1
+fi
+
+mapfile -t networks < <(
+    nmcli -t -f IN-USE,SSID,SIGNAL,SECURITY device wifi list \
+    | awk -F: 'NF && $2 != "" {printf "%s %-32s %s%% %s\n", $1, $2, $3, $4}' \
+    | awk '!seen[$2]++'
+)
+
+extra="◉ rescan
+⏻ wifi off
+⚙ open nm-connection-editor"
+
+choice=$(printf '%s\n%s' "$(printf '%s\n' "${networks[@]}")" "$extra" \
+    | fuzzel --dmenu --prompt='wifi> ' --width=50)
+[ -z "$choice" ] && exit 0
+
+case "$choice" in
+    "◉ rescan")
+        nmcli device wifi rescan
+        notify-send "WiFi" "Rescanning..."
+        ;;
+    "⏻ wifi off")
+        nmcli radio wifi off
+        ;;
+    "⚙ open nm-connection-editor")
+        nm-connection-editor &
+        ;;
+    *)
+        ssid=$(echo "$choice" | awk '{print $2}')
+        if nmcli connection show --active | grep -q "^$ssid "; then
+            notify-send "WiFi" "Already connected to $ssid"
+        elif nmcli connection show | grep -q "^$ssid "; then
+            nmcli connection up "$ssid" \
+                && notify-send "WiFi" "Connected: $ssid" \
+                || notify-send "WiFi" "Failed: $ssid"
+        else
+            sec=$(echo "$choice" | awk '{print $4}')
+            if [ -n "$sec" ] && [ "$sec" != "--" ]; then
+                pass=$(fuzzel --dmenu --password --prompt="pw $ssid> ")
+                [ -z "$pass" ] && exit 0
+                nmcli device wifi connect "$ssid" password "$pass" \
+                    && notify-send "WiFi" "Connected: $ssid" \
+                    || notify-send "WiFi" "Failed: $ssid"
+            else
+                nmcli device wifi connect "$ssid" \
+                    && notify-send "WiFi" "Connected: $ssid" \
+                    || notify-send "WiFi" "Failed: $ssid"
+            fi
+        fi
+        ;;
+esac

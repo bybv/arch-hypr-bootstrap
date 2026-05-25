@@ -1,0 +1,11 @@
+# Nicer screenshot wrapper around grim/slurp (region/window/output modes)
+hyprshot
+
+# Screenshot annotation (highlight, circle, arrow) — used by screenshot menu
+satty
+
+# Cursor theme — high contrast, mature
+bibata-cursor-theme-bin
+
+# Optional power menu UI
+# wlogout

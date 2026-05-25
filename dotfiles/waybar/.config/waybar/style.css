@@ -1,0 +1,55 @@
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 12px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: rgba(24, 24, 24, 0.95);
+  color: #d8d8d8;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+#workspaces button {
+  padding: 0 8px;
+  color: #555;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+}
+
+#workspaces button.active {
+  color: #d8d8d8;
+  border-bottom: 2px solid #61afef;
+}
+
+#workspaces button.empty {
+  color: #3a3a3a;
+}
+
+#clock,
+#pulseaudio,
+#network,
+#battery,
+#custom-server,
+#custom-syncthing {
+  padding: 0 10px;
+}
+
+/* Server status */
+#custom-server.online  { color: #98c379; }
+#custom-server.offline { color: #e06c75; }
+
+/* Syncthing status */
+#custom-syncthing.ok    { color: #98c379; }
+#custom-syncthing.sync  { color: #61afef; }
+#custom-syncthing.warn  { color: #e5c07b; }
+#custom-syncthing.error { color: #e06c75; }
+#custom-syncthing.down  { color: #555; }
+
+/* Battery thresholds */
+#battery.warning  { color: #e5c07b; }
+#battery.critical { color: #e06c75; }
+
+/* Network states */
+#network.disconnected { color: #e06c75; }

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Power menu via fuzzel.
+set -eu
+
+choice=$(printf '%s\n' \
+    "lock" \
+    "logout" \
+    "suspend" \
+    "reboot" \
+    "shutdown" \
+    | fuzzel --dmenu --prompt='power> ' --lines=5)
+
+case "$choice" in
+    lock)     hyprlock ;;
+    logout)   hyprctl dispatch exit ;;
+    suspend)  systemctl suspend ;;
+    reboot)   systemctl reboot ;;
+    shutdown) systemctl poweroff ;;
+    *)        exit 0 ;;
+esac

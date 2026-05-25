@@ -1,0 +1,9 @@
+# Personal utilities you'll want on every machine.
+keepassxc
+syncthing
+
+# After installing, enable Syncthing as a user service so it runs at login:
+#   systemctl --user enable --now syncthing.service
+#
+# Bitwarden is best used as a browser extension (install from the browser's
+# extension store after first launch). No desktop package needed.

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Waybar custom module: ping reachability of the home server.
+# Output: JSON {text, tooltip, class}.
+
+# EDIT THIS to your server's hostname or IP.
+SERVER="${HOME_SERVER:-server.local}"
+
+if ping -c 1 -W 2 "$SERVER" >/dev/null 2>&1; then
+    printf '{"text": "●", "tooltip": "%s online", "class": "online"}\n' "$SERVER"
+else
+    printf '{"text": "●", "tooltip": "%s offline", "class": "offline"}\n' "$SERVER"
+fi

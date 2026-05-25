@@ -1,0 +1,69 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "spacing": 6,
+  "start_hidden": true,
+
+  "modules-left":   ["hyprland/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right":  [
+    "custom/server",
+    "custom/syncthing",
+    "pulseaudio",
+    "network",
+    "battery"
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "persistent-workspaces": {
+      "*": [1, 2, 3, 4, 5]
+    },
+    "on-click": "activate"
+  },
+
+  "clock": {
+    "format": "{:%a %b %d  %H:%M}",
+    "tooltip-format": "<tt>{calendar}</tt>"
+  },
+
+  "custom/server": {
+    "exec": "~/.local/bin/waybar-server-status",
+    "interval": 30,
+    "return-type": "json",
+    "tooltip": true
+  },
+
+  "custom/syncthing": {
+    "exec": "~/.local/bin/waybar-syncthing-status",
+    "interval": 15,
+    "return-type": "json",
+    "tooltip": true
+  },
+
+  "pulseaudio": {
+    "format": "{volume}%",
+    "format-muted": "muted",
+    "tooltip-format": "{desc}"
+  },
+
+  "network": {
+    "format-wifi": "{essid}",
+    "format-ethernet": "eth",
+    "format-disconnected": "off",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}/{cidr}",
+    "tooltip-format-ethernet": "{ifname}\n{ipaddr}/{cidr}",
+    "tooltip-format-disconnected": "Not connected"
+  },
+
+  "battery": {
+    "format": "{capacity}%",
+    "format-charging": "{capacity}% +",
+    "format-plugged": "{capacity}% =",
+    "states": {
+      "warning": 30,
+      "critical": 15
+    }
+  }
+}

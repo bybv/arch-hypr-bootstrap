@@ -1,0 +1,4 @@
+tmux
+ripgrep
+fd
+fzf
