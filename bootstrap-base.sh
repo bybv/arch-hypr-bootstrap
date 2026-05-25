@@ -70,6 +70,15 @@ enable_services() {
     done
 }
 
+regenerate_grub() {
+    if [[ -d /boot/grub ]]; then
+        log "regenerating GRUB config (picks up grub-btrfs snapshot entries)"
+        sudo grub-mkconfig -o /boot/grub/grub.cfg || warn "grub-mkconfig failed"
+    else
+        warn "/boot/grub missing — not a GRUB system? skipping grub-mkconfig"
+    fi
+}
+
 set_fish_shell() {
     local current; current=$(getent passwd "$USER" | cut -d: -f7)
     if [[ "$current" == "/usr/bin/fish" ]]; then
@@ -90,14 +99,20 @@ deploy_dotfiles() {
             warn "no stow package: $pkg"
             continue
         fi
-        # --restow handles re-runs cleanly: removes then re-adds links
-        stow --restow --target="$HOME" "$pkg" \
+        # --no-folding keeps target dirs real (symlinks per file), so a new
+        # per-machine file like hypr/host.conf can't accidentally land in the
+        # repo via a folded directory symlink. --restow makes re-runs clean.
+        stow --no-folding --restow --target="$HOME" "$pkg" \
             || warn "stow conflict for $pkg — resolve and re-run"
     done
     # Ensure scripts are executable (stow preserves perms but git can lose them)
     if [[ -d "$HOME/.local/bin" ]]; then
         find "$HOME/.local/bin" -maxdepth 1 -type l -exec chmod +x {} \;
     fi
+    # Per-machine Hyprland overrides live outside git; create the empty file so
+    # the `source` line in hyprland.conf doesn't warn on a fresh machine.
+    mkdir -p "$HOME/.config/hypr"
+    touch "$HOME/.config/hypr/host.conf"
 }
 
 setup_snapper_home() {
@@ -137,6 +152,7 @@ main() {
     bootstrap_yay
     install_aur "$REPO_DIR/pkglists/aur-base.txt"
     enable_services
+    regenerate_grub
     set_fish_shell
     deploy_dotfiles
     setup_snapper_home
