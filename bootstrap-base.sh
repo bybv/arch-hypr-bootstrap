@@ -55,6 +55,7 @@ enable_services() {
         NetworkManager.service
         bluetooth.service
         tlp.service
+        thermald.service
         fstrim.timer
         fwupd-refresh.timer
         snapper-timeline.timer
