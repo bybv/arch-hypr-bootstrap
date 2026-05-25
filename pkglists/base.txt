@@ -43,6 +43,11 @@ pipewire-alsa
 pipewire-pulse
 wireplumber
 pavucontrol
+# sof-firmware + alsa-ucm-conf: required for speakers/mic on modern Intel
+# laptops (SOF audio DSP); alsa-utils gives speaker-test/alsamixer for debug
+sof-firmware
+alsa-ucm-conf
+alsa-utils
 
 # Bluetooth
 bluez

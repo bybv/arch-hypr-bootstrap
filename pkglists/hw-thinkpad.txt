@@ -13,5 +13,8 @@ thermald
 # Firmware updates (LVFS)
 fwupd
 
+# Thunderbolt / USB4 dock authorization (boltctl) — TB3 on gen6/8, TB4 on gen13
+bolt
+
 # Optional fingerprint reader (uncomment if your model has one)
 # fprintd
