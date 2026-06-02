@@ -89,6 +89,17 @@ set_fish_shell() {
     chsh -s /usr/bin/fish
 }
 
+configure_git_delta() {
+    command -v delta >/dev/null || { warn "delta not installed, skipping git pager config"; return; }
+    log "configuring git to use delta as diff pager"
+    # Only sets delta-related keys; leaves user identity and everything else alone.
+    git config --global core.pager delta
+    git config --global interactive.diffFilter 'delta --color-only'
+    git config --global delta.navigate true
+    git config --global delta.line-numbers true
+    git config --global merge.conflictStyle zdiff3
+}
+
 deploy_dotfiles() {
     [[ -d "$DOTFILES_DIR" ]] || die "no dotfiles dir at $DOTFILES_DIR"
     command -v stow >/dev/null || die "stow not installed"
@@ -154,6 +165,7 @@ main() {
     enable_services
     regenerate_grub
     set_fish_shell
+    configure_git_delta
     deploy_dotfiles
     setup_snapper_home
     summary

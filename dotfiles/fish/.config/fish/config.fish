@@ -11,11 +11,19 @@ end
 # Server hostname for waybar status module — edit once, applies everywhere
 set -gx HOME_SERVER server.local
 
-# Aliases
-alias ls='ls --color=auto'
-alias ll='ls -alh'
+# Aliases — modern CLI tools aliased over the originals (installed via base.txt)
+alias ls='eza --group-directories-first --icons=auto'
+alias ll='eza -lah --group-directories-first --icons=auto --git'
+alias cat='bat'
+alias du='dust'
+alias df='duf'
 alias g='git'
 alias y='yazi'
+
+# zoxide: smarter cd. --cmd cd makes `cd` itself use zoxide (z/zi still work).
+if command -q zoxide
+    zoxide init fish --cmd cd | source
+end
 
 # PATH additions
 if test -d "$HOME/.local/bin"

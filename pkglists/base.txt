@@ -92,8 +92,19 @@ wget
 curl
 rsync
 htop
+btop
 usbutils
 pciutils
 libnotify
 jq
 swayosd
+
+# Modern CLI replacements (aliased over the originals in fish config.fish)
+# eza→ls, bat→cat, dust→du, duf→df; zoxide→cd; git-delta = git diff pager.
+# (ripgrep/fd/fzf live in apps-dev.txt with the rest of the dev tooling.)
+eza
+bat
+dust
+duf
+zoxide
+git-delta
