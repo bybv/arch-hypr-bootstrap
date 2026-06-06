@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Expand the active window to full monitor height and center it horizontally,
+# keeping its current width. Handy on wide monitors when you want a centered
+# column rather than a full-width window. Floats the window if it was tiled.
+set -eu
+
+gap=8   # match gaps_out in hyprland.conf
+
+win=$(hyprctl -j activewindow)
+[ "$win" = "null" ] || [ -z "$win" ] && exit 0
+
+mon_id=$(printf '%s' "$win" | jq -r '.monitor')
+mon=$(hyprctl -j monitors | jq -c --argjson id "$mon_id" '.[] | select(.id == $id)')
+
+# Logical (scaled) monitor geometry and reserved areas (waybar etc.).
+read -r mon_x mon_y log_w log_h res_top res_bottom < <(printf '%s' "$mon" | jq -r '
+    [ .x, .y, (.width / .scale), (.height / .scale), .reserved[1], .reserved[3] ] | @tsv')
+
+# Keep current width; fill the usable height minus a gap top and bottom.
+cur_w=$(printf '%s' "$win" | jq -r '.size[0]')
+new_h=$(( log_h - res_top - res_bottom - 2 * gap ))
+new_x=$(( mon_x + (log_w - cur_w) / 2 ))
+new_y=$(( mon_y + res_top + gap ))
+
+hyprctl --batch "\
+dispatch setfloating active; \
+dispatch resizeactive exact $cur_w $new_h; \
+dispatch moveactive exact $new_x $new_y"
