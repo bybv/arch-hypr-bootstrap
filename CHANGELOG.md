@@ -2,6 +2,9 @@
 
 ## June 2026
 
+### 2026-06-07
+- Add Super-based volume binds via swayosd as redundancy for keyboards without dedicated media keys: Super+= raise, Super+- lower, Super+0 mute-toggle.
+
 ### 2026-06-06
 - Add window-fill-height script + Super+Shift+C bind: float the active window, expand it to full monitor height, and center it horizontally while keeping its current width (for centered columns on wide monitors).
 - Add Super-based media binds via playerctl: Super+C play/pause, Super+[ previous, Super+] next.
