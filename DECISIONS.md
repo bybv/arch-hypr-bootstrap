@@ -29,6 +29,29 @@ first-time device pairing only.
 Functionally equivalent. yay was already familiar; switching for marginal
 cosmetic gains would only add unfamiliar variables during bring-up.
 
+## AUR exposure: minimize, and review by default
+The AUR is unvetted, user-submitted PKGBUILDs — periodic malware/typosquat
+waves are a known risk. Switching distro is the wrong fix: the Arch-family
+siblings (EndeavourOS, CachyOS, Manjaro) all share the *same* AUR, and a real
+escape (Fedora/openSUSE) means rewriting the whole bootstrap for worse Hyprland
+support. Instead we shrink the attack surface and review what's left:
+- Prefer official-repo packages. satty and hyprshot graduated to `extra` and
+  were moved out of the AUR list; only the cursor theme is AUR-only now.
+- bootstrap installs AUR with PKGBUILD/diff review **on by default** (no
+  `--noconfirm`). `AUR_NOCONFIRM=1` restores unattended behavior once trusted.
+- `yay-bin` itself is reviewed the same way before the first build.
+
+## Cursor theme: AUR vs vendored tarball
+Bibata is the one package with no official-repo equivalent, so it's the lone
+AUR entry. It's pure data (no compiled code), which makes it the easiest thing
+to de-AUR entirely: fetch a pinned upstream release tarball, verify its
+checksum, and unpack into `~/.local/share/icons`. That removes the last AUR
+dependency (and the need for yay at all on a base install). Kept on AUR for now
+because review-by-default already covers it and vendoring needs a pinned
+version+hash to be maintained on each bump; the migration is a deliberate
+follow-up, not a default. Repo-only fallback if you don't care about Bibata
+specifically: the Adwaita cursor ships by default.
+
 ## File manager: thunar + yazi, not Dolphin
 Dolphin drags in a lot of Qt. thunar is GTK-light for the GUI case; yazi covers
 the terminal-first workflow. polkit-gnome (not polkit-kde) pairs with the GTK

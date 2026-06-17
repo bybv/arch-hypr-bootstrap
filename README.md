@@ -22,7 +22,7 @@ from this repo).
 | Bootloader | GRUB + grub-btrfs | Boot directly into snapshots — recovery without a live USB |
 | Filesystem | Btrfs + snapper + snap-pac | Auto pre/post-pacman snapshots |
 | Dotfiles | GNU Stow | Symlinks. Easy to inspect, easy to undo |
-| AUR helper | yay | Familiar, well-documented, no reason to switch |
+| AUR helper | yay | Familiar, well-documented; AUR kept minimal + reviewed (see DECISIONS.md) |
 | Power mgmt | TLP | ThinkPad-tuned |
 | Night light | hyprsunset | Hyprland-native, lightweight, simple config |
 | Cursor theme | Bibata-Modern-Classic | High contrast, mature, easy to see |
@@ -221,8 +221,13 @@ ignored. Highlights:
 
 - `base.txt` — the desktop base (compositor, bar, audio, fonts, tooling).
 - `hw-thinkpad.txt` — Intel graphics, TLP/thermald, fwupd.
-- `aur-base.txt` — hyprshot, satty, Bibata cursor.
+- `aur-base.txt` — Bibata cursor only (the lone AUR-only package). satty and
+  hyprshot moved to `base.txt` once they landed in the official `extra` repo.
 - `apps-*.txt` — role bundles (browser, dev, media, editor, utils, audio).
+
+AUR is installed with PKGBUILD/diff **review on by default** — yay shows each
+build script before building. Set `AUR_NOCONFIRM=1` to skip review on trusted,
+unattended re-runs. Rationale and the path to zero AUR are in DECISIONS.md.
 
 Post-install notes for a couple of lists:
 

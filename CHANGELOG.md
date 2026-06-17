@@ -2,6 +2,9 @@
 
 ## June 2026
 
+### 2026-06-17
+- Harden AUR exposure: install AUR with PKGBUILD/diff review on by default (no more blanket `--noconfirm`), `AUR_NOCONFIRM=1` to opt out; review yay-bin's PKGBUILD before the first build; add `--cleanafter`. Move satty + hyprshot out of the AUR list into base.txt (now in `extra`), leaving Bibata cursor as the only AUR package. Document AUR-minimization rationale and the vendored-tarball path to zero AUR in DECISIONS.md.
+
 ### 2026-06-07
 - Add Super-based volume binds via swayosd as redundancy for keyboards without dedicated media keys: Super+= raise, Super+- lower, Super+0 mute-toggle.
 

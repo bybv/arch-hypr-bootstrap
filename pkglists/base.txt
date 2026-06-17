@@ -66,6 +66,9 @@ nm-connection-editor
 # Screenshot
 grim
 slurp
+satty            # annotation (used by screenshot-menu); now in extra, was AUR
+# hyprshot       # grim/slurp wrapper, now in extra — only needed for the
+                 # optional hyprshot binds in hyprland.conf; grim/slurp cover all modes
 
 # Fonts
 ttf-dejavu

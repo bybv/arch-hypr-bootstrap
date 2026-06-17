@@ -8,6 +8,11 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES_DIR="$REPO_DIR/dotfiles"
 STOW_PACKAGES=(hypr waybar fish foot fuzzel mako yazi scripts)
 
+# AUR is unvetted, user-submitted build scripts. Default: review every PKGBUILD
+# (and diff on upgrades) interactively before building. Set AUR_NOCONFIRM=1 only
+# for unattended re-runs once you already trust the pinned sources.
+AUR_NOCONFIRM="${AUR_NOCONFIRM:-0}"
+
 log()  { printf '\033[1;34m[bootstrap]\033[0m %s\n' "$*"; }
 warn() { printf '\033[1;33m[warn]\033[0m %s\n' "$*"; }
 die()  { printf '\033[1;31m[error]\033[0m %s\n' "$*" >&2; exit 1; }
@@ -32,10 +37,21 @@ bootstrap_yay() {
         log "yay already installed"
         return
     fi
-    log "bootstrapping yay"
+    log "bootstrapping yay (AUR helper)"
     sudo pacman -S --needed --noconfirm base-devel git
     local tmp; tmp=$(mktemp -d)
     git clone --depth=1 https://aur.archlinux.org/yay-bin.git "$tmp/yay-bin"
+    if [[ "$AUR_NOCONFIRM" != "1" ]]; then
+        if [[ -t 0 ]]; then
+            log "review the yay-bin PKGBUILD before building (q to quit pager):"
+            "${PAGER:-less}" "$tmp/yay-bin/PKGBUILD"
+            read -rp "build and install yay-bin from this PKGBUILD? [y/N] " ans
+            [[ "$ans" =~ ^[Yy] ]] || { rm -rf "$tmp"; die "yay bootstrap aborted by user"; }
+        else
+            rm -rf "$tmp"
+            die "non-interactive shell and AUR_NOCONFIRM unset — cannot review yay-bin PKGBUILD. Re-run in a terminal, or set AUR_NOCONFIRM=1 to trust it."
+        fi
+    fi
     (cd "$tmp/yay-bin" && makepkg -si --noconfirm)
     rm -rf "$tmp"
 }
@@ -45,8 +61,14 @@ install_aur() {
     [[ -f "$list" ]] || return
     mapfile -t pkgs < <(grep -vE '^\s*(#|$)' "$list")
     [[ ${#pkgs[@]} -gt 0 ]] || return
-    log "installing AUR: ${#pkgs[@]} packages"
-    yay -S --needed --noconfirm "${pkgs[@]}"
+    local flags=(-S --needed --cleanafter)
+    if [[ "$AUR_NOCONFIRM" == "1" ]]; then
+        warn "AUR_NOCONFIRM=1 — installing ${#pkgs[@]} AUR package(s) WITHOUT PKGBUILD review"
+        flags+=(--noconfirm)
+    else
+        log "installing ${#pkgs[@]} AUR package(s) — yay shows each PKGBUILD/diff; read before accepting"
+    fi
+    yay "${flags[@]}" "${pkgs[@]}"
 }
 
 enable_services() {
