@@ -55,7 +55,8 @@ arch-hypr-bootstrap/
 │   ├── apps-media.txt                # pacman: media tools
 │   ├── apps-editor.txt               # pacman: editors
 │   ├── apps-utils.txt                # pacman: utilities (keepassxc, syncthing)
-│   └── apps-audio.txt                # pacman: audio production / DJ
+│   ├── apps-audio.txt                # pacman: audio production / DJ
+│   └── apps-writing.txt              # pacman: Tectonic LaTeX + fonts
 ├── dotfiles/                         # stow packages
 │   ├── hypr/.config/hypr/
 │   │   ├── hyprland.conf
@@ -223,7 +224,7 @@ ignored. Highlights:
 - `hw-thinkpad.txt` — Intel graphics, TLP/thermald, fwupd.
 - `aur-base.txt` — Bibata cursor only (the lone AUR-only package). satty and
   hyprshot moved to `base.txt` once they landed in the official `extra` repo.
-- `apps-*.txt` — role bundles (browser, dev, media, editor, utils, audio).
+- `apps-*.txt` — role bundles (browser, dev, media, editor, utils, audio, writing).
 
 AUR is installed with PKGBUILD/diff **review on by default** — yay shows each
 build script before building. Set `AUR_NOCONFIRM=1` to skip review on trusted,
@@ -236,6 +237,10 @@ Post-install notes for a couple of lists:
   a browser extension, no desktop package needed.
 - **apps-audio** (mixxx, JACK, plugins): add yourself to the realtime group and
   re-login — `sudo usermod -aG realtime $USER`.
+- **apps-writing** (tectonic + fonts): Tectonic pulls LaTeX packages on demand on
+  first compile, so only system fonts are installed here; `fontspec` uses those
+  installed fonts (Libertinus, Source Serif/Sans). See `docs/latex-writing.md`
+  for document classes, fonts, and the package toolkit.
 
 ---
 

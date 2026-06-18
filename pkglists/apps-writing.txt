@@ -1,0 +1,8 @@
+# Tectonic LaTeX engine + system fonts for fontspec.
+# Tectonic auto-downloads LaTeX packages (KOMA-Script, microtype, booktabs,
+# hyperref, etc.) on first compile — only fonts need to be installed here.
+# See docs/latex-writing.md for the class/font/package toolkit.
+tectonic
+otf-libertinus
+adobe-source-serif-fonts
+adobe-source-sans-fonts
