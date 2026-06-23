@@ -1,6 +1,9 @@
 # Greeting off
 set -U fish_greeting
 
+# Default editor: micro (modeless, nano-like). Drives yazi `e` + bulk-rename, git.
+set -gx EDITOR micro
+
 # Auto-launch Hyprland on tty1 only, login shells only
 if status is-login
     if test -z "$DISPLAY"; and test "$XDG_VTNR" = "1"

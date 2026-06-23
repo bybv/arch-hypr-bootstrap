@@ -1,0 +1,18 @@
+# z/Z are also yazi defaults, but set explicitly so they survive preset changes.
+# zoxide + fzf are built-in plugins (compiled into the yazi binary); they only
+# need the `zoxide` and `fzf` binaries installed (both in base.txt).
+[[mgr.prepend_keymap]]
+on = "z"
+run = "plugin zoxide"
+desc = "Jump to a dir via zoxide"
+
+[[mgr.prepend_keymap]]
+on = "Z"
+run = "plugin fzf"
+desc = "Jump via fzf (live fuzzy find)"
+
+# yazi has NO default `e` bind — add one that shells out to $EDITOR (micro).
+[[mgr.prepend_keymap]]
+on = "e"
+run = 'shell "$EDITOR \"$@\"" --block'
+desc = "Edit in $EDITOR"

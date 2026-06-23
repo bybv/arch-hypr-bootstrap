@@ -1,1 +1,14 @@
-# Add overrides here if needed. Defaults are good.
+[mgr]
+ratio = [1, 3, 5]            # [parent, current, preview] of 9 (default [1,4,3])
+
+[opener]
+view-md = [
+  { run = 'glow -p "$@"', block = true, desc = "View (glow)" },
+]
+
+# Layer onto yazi's defaults (prepend_rules, not rules — bare rules would replace
+# every default opener). Match by url glob: .md reports as text/plain on Arch, so
+# a mime rule would never fire. Open rules match `url`/`mime`, not `name`.
+[[open.prepend_rules]]
+url = "*.md"
+use = [ "view-md", "edit", "reveal" ]

@@ -104,10 +104,18 @@ swayosd
 
 # Modern CLI replacements (aliased over the originals in fish config.fish)
 # eza→ls, bat→cat, dust→du, duf→df; zoxide→cd; git-delta = git diff pager.
-# (ripgrep/fd/fzf live in apps-dev.txt with the rest of the dev tooling.)
+# (ripgrep/fd live in apps-dev.txt with the rest of the dev tooling.)
 eza
 bat
 dust
 duf
 zoxide
 git-delta
+
+# yazi companions + terminal editor:
+# fzf = picker for yazi z/Z jump and zoxide interactive select (-i);
+# glow = markdown renderer for yazi's markdown opener;
+# micro = modeless nano-like $EDITOR, used by yazi's `e` and bulk-rename.
+fzf
+glow
+micro
