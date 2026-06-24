@@ -2,6 +2,9 @@
 
 ## June 2026
 
+### 2026-06-24
+- Hypr: add window rule to open zathura (PDF viewer) fullscreen — `windowrule = fullscreen, class:^(org\.pwmt\.zathura)$`. It otherwise launches as a tiny floating window.
+
 ### 2026-06-23
 - Yazi: add `glow` markdown opener (`o` views in glow pager, `O` chooser), wider preview ratio `[1,3,5]`, zoxide/fzf jump binds (`z`/`Z`, built-in plugins) plus `init.lua` `update_db`, and an `e` bind that edits in `$EDITOR`. Open rule matches by `url = "*.md"` (mime detects `.md` as text/plain). Set `EDITOR=micro` in fish `config.fish`. Add `glow`, `micro`, and `fzf` (moved from `apps-dev.txt`, needed by the jump binds) to `base.txt`.
 
