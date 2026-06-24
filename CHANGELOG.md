@@ -3,6 +3,7 @@
 ## June 2026
 
 ### 2026-06-24
+- Docs: add "Possible additions (to consider)" section to README with a neomutt + offline Fastmail mail/contacts candidate (mbsync/msmtp/vdirsyncer/khard), its functionality tradeoffs vs webmail, and a hybrid recommendation. Not decided.
 - Hypr: add window rule to open zathura (PDF viewer) fullscreen — `windowrule = fullscreen, class:^(org\.pwmt\.zathura)$`. It otherwise launches as a tiny floating window.
 
 ### 2026-06-23

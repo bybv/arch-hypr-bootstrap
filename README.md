@@ -652,6 +652,27 @@ the config (Hyprland supports `source = ` for that).
 
 ---
 
+## Possible additions (to consider)
+
+Not decided, not committed to — ideas worth weighing later.
+
+- **neomutt + offline mail/contacts for Fastmail.** Terminal-first mail for the
+  two Fastmail accounts (personal + business), keyboard-driven, with true offline
+  read/compose. Real stack is four parts per account: **mbsync (isync)** → local
+  Maildir, **msmtp** with a send queue, **vdirsyncer + khard** for CardDAV
+  contacts, and Fastmail **app passwords** (scoped per IMAP/SMTP/CardDAV).
+  - *Worth it for:* offline writing, speed, scriptable plain-text workflow, a
+    local Maildir archive you own.
+  - *The catch:* meaningfully less functional than the webmail in specific ways —
+    HTML email renders poorly (piped through w3m/lynx; bad for formatted business
+    mail), no calendar, weaker search unless you add notmuch, and you lose
+    snooze/scheduled-send/rules UI. Phone still uses the app regardless.
+  - *Recommended shape if pursued:* **hybrid, not a replacement** — neomutt for
+    reading/triage and offline composing; keep webmail for HTML-heavy mail,
+    calendar, and filters. If offline *composing* is the only goal, the cheap
+    alternative is drafting in `$EDITOR` offline and pasting into webmail, with no
+    sync infrastructure to maintain.
+
 ## Notes for future-you
 
 - The first install will reveal at least one thing this doc gets wrong. When it
