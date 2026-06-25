@@ -22,6 +22,7 @@ wl-clipboard
 # Terminal + shell + TUI
 foot
 fish
+atuin
 yazi
 
 # File manager (GUI)

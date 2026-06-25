@@ -2,6 +2,9 @@
 
 ## June 2026
 
+### 2026-06-25
+- Fish: port three workflow upgrades from the legacy-host cherry-pick backlog. Enable vi key bindings with per-mode cursor shape (block normal / beam insert); add `atuin` (base.txt) for a fuzzy Ctrl-R history popup, sourced with `--disable-up-arrow` after fzf so atuin owns Ctrl-R while fzf keeps Ctrl-T/Alt-C; add a `yy` function (yazi that cd's to its last dir on quit) and a Ctrl-J fuzzy directory jump (`__jump_bookmark` + `fish_user_key_bindings`) reading `~/.config/fish/bm_dirs`.
+
 ### 2026-06-24
 - Docs: add "Possible additions (to consider)" section to README with a neomutt + offline Fastmail mail/contacts candidate (mbsync/msmtp/vdirsyncer/khard), its functionality tradeoffs vs webmail, and a hybrid recommendation. Not decided.
 - Hypr: add window rule to open zathura (PDF viewer) fullscreen — `windowrule = fullscreen, class:^(org\.pwmt\.zathura)$`. It otherwise launches as a tiny floating window.

@@ -1,0 +1,4 @@
+# Directory bookmarks for the Ctrl-J fuzzy-jump (one path per line).
+# Lines starting with # and blank lines are ignored. ~ expands to $HOME.
+~/.config
+~/.local/bin
