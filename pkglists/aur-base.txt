@@ -3,12 +3,19 @@
 # PKGBUILD interactively before building (set AUR_NOCONFIRM=1 to skip).
 #
 # satty + hyprshot used to live here; both graduated to the official `extra`
-# repo and moved to base.txt. Only the cursor theme remains AUR-only.
+# repo and moved to base.txt. Two AUR entries remain: the cursor theme and the
+# terminal file-picker portal — neither has an official-repo equivalent.
 
 # Cursor theme — high contrast, mature. Not in any official repo.
 # Fully AUR-free alternative: vendor the upstream release tarball (it's data
 # only, no build step) — see DECISIONS.md "Cursor theme: AUR vs vendored tarball".
 bibata-cursor-theme-bin
+
+# Terminal file picker: routes the FileChooser portal (browser upload/download
+# dialogs, etc.) through yazi in a foot terminal instead of the GTK dialog.
+# The hunkyburrito fork is the maintained one and ships the yazi wrapper.
+# Config lives in the xdg-portal stow package; rationale in DECISIONS.md.
+xdg-desktop-portal-termfilechooser-hunkyburrito-git
 
 # Optional power menu UI (also in AUR)
 # wlogout

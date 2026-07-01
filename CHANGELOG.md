@@ -1,5 +1,10 @@
 # Changelog
 
+## July 2026
+
+### 2026-07-01
+- File picker: route the FileChooser portal to `xdg-desktop-portal-termfilechooser` (hunkyburrito fork, `aur-base.txt`) so browser upload/download dialogs open yazi in a foot terminal instead of the GTK dialog. New `xdg-portal` stow package carries `hyprland-portals.conf` (pins `org.freedesktop.impl.portal.FileChooser = termfilechooser`, keeps `default = hyprland;gtk`) and the termfilechooser `config` (yazi wrapper, `default_dir=$HOME`, `TERMCMD=foot`); added to `STOW_PACKAGES`. Covers both upload and download by design — see DECISIONS.md "File picker". Added a README troubleshooting entry for verifying the wrapper path/env on the machine.
+
 ## June 2026
 
 ### 2026-06-25

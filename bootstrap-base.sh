@@ -6,7 +6,7 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES_DIR="$REPO_DIR/dotfiles"
-STOW_PACKAGES=(hypr waybar fish foot fuzzel mako yazi scripts)
+STOW_PACKAGES=(hypr waybar fish foot fuzzel mako yazi scripts xdg-portal)
 
 # AUR is unvetted, user-submitted build scripts. Default: review every PKGBUILD
 # (and diff on upgrades) interactively before building. Set AUR_NOCONFIRM=1 only

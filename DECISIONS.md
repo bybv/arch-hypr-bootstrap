@@ -52,6 +52,25 @@ version+hash to be maintained on each bump; the migration is a deliberate
 follow-up, not a default. Repo-only fallback if you don't care about Bibata
 specifically: the Adwaita cursor ships by default.
 
+## File picker: yazi via termfilechooser, both directions
+Apps don't draw their own file dialogs on Wayland — they call the FileChooser
+portal, and a backend supplies the UI. Default here would be
+xdg-desktop-portal-gtk's GTK dialog. Instead FileChooser is routed to
+xdg-desktop-portal-termfilechooser (hunkyburrito fork), which spawns yazi in a
+foot terminal. Motivation was keyboard-only, zoxide-fast navigation for browser
+**uploads** (select existing files — the case a TUI is strictly better at).
+
+The portal can't route open and save to different backends (same interface,
+mode decided at call time), so this necessarily covers **downloads** too — and
+that's a feature, not a compromise: a save dialog's real cost is picking the
+destination directory, not the filename (the browser pre-fills the suggested
+name). So download becomes "navigate in yazi, quit, done at the chosen path,"
+which removes the save-to-~/Downloads-then-move-in-yazi dance. The one weak
+spot — typing a brand-new filename in a TUI — is rare and handled by yazi's
+rename before quitting. gtk stays installed as the fallback for every other
+portal interface. If save-mode ever grates, the escape hatch is a dispatcher
+wrapper that sends save-mode to a GUI dialog (zenity) and open-mode to yazi.
+
 ## File manager: thunar + yazi, not Dolphin
 Dolphin drags in a lot of Qt. thunar is GTK-light for the GUI case; yazi covers
 the terminal-first workflow. polkit-gnome (not polkit-kde) pairs with the GTK

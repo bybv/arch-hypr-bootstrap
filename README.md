@@ -604,6 +604,28 @@ systemctl --user status xdg-desktop-portal xdg-desktop-portal-hyprland
 If `xdg-desktop-portal-gnome` is also installed (pulled in by some app), it can
 hijack the portal. Remove it: `sudo pacman -R xdg-desktop-portal-gnome`.
 
+### File picker opens the GTK dialog instead of yazi
+
+The FileChooser portal is routed to `xdg-desktop-portal-termfilechooser`
+(hunkyburrito fork, AUR), which opens yazi in a foot terminal for both upload
+and download dialogs — see DECISIONS.md "File picker". If a file dialog still
+opens the GTK chooser (or nothing happens), check, in order:
+
+```bash
+# 1. backend installed?
+pacman -Q xdg-desktop-portal-termfilechooser-hunkyburrito-git
+# 2. routing config in place? (from the xdg-portal stow package)
+cat ~/.config/xdg-desktop-portal/hyprland-portals.conf
+# 3. wrapper path + env var in the config match the installed package?
+head -40 /usr/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
+# 4. restart the portal so it re-reads config, then re-test in the browser
+systemctl --user restart xdg-desktop-portal
+```
+
+If the wrapper path or the `TERMCMD` env name differ from what the package
+ships, edit `~/.config/xdg-desktop-portal-termfilechooser/config` (the stow
+source is `dotfiles/xdg-portal/`) to match.
+
 ### Clipboard history empty
 
 ```bash

@@ -1,0 +1,18 @@
+# xdg-desktop-portal-termfilechooser — use yazi (in foot) as the file picker.
+# Backend package: xdg-desktop-portal-termfilechooser-hunkyburrito-git (AUR).
+#
+# Handles BOTH directions of the FileChooser portal via one wrapper:
+#   open/upload   -> yazi navigate + select existing file(s) (space = multi-select)
+#   save/download -> yazi navigate to a dir, quit; saved with the app's
+#                    suggested filename (rename in yazi first only if you want to)
+#
+# The wrapper is told by the portal which mode it's in, so no split config is
+# needed. Verify the wrapper path + expected env var against the installed
+# package: `head -40 /usr/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh`
+[filechooser]
+cmd = /usr/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
+# Starting dir when the calling app gives no path hint (typical for uploads).
+# Use zoxide (z) / fzf inside yazi to jump onward fast.
+default_dir = $HOME
+# Terminal the wrapper spawns yazi in. This stack uses foot.
+env = TERMCMD=foot
