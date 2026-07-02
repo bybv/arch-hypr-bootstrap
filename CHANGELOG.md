@@ -2,6 +2,9 @@
 
 ## July 2026
 
+### 2026-07-02
+- Fish/fzf: add `fo <query>` function (fuzzy-pick a file, open it in its default app via `xdg-open`, detached so the prompt returns immediately; Esc cancels cleanly). Set `FZF_DEFAULT_COMMAND`/`FZF_CTRL_T_COMMAND` to `fd --type f --hidden --exclude .git` (fast, gitignore-aware listing) and give Ctrl-T a `bat` preview pane. Move `fd` from `apps-dev.txt` to `base.txt` (now backs the shell's fzf integration — same precedent as fzf's earlier move) and add `xdg-utils` to `base.txt` (provides `xdg-open`; only the portals were listed before, which don't).
+
 ### 2026-07-01
 - File picker: route the FileChooser portal to `xdg-desktop-portal-termfilechooser` (hunkyburrito fork, `aur-base.txt`) so browser upload/download dialogs open yazi in a foot terminal instead of the GTK dialog. New `xdg-portal` stow package carries `hyprland-portals.conf` (pins `org.freedesktop.impl.portal.FileChooser = termfilechooser`, keeps `default = hyprland;gtk`) and the termfilechooser `config` (yazi wrapper, `default_dir=$HOME`, `TERMCMD=foot`); added to `STOW_PACKAGES`. Covers both upload and download by design — see DECISIONS.md "File picker". Added a README troubleshooting entry for verifying the wrapper path/env on the machine.
 

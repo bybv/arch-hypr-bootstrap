@@ -33,6 +33,7 @@ end
 #   Ctrl-R      atuin: fuzzy search of your FULL history (fish + imported bash)
 #   Ctrl-T      fzf: pick a file and drop its path onto the command line
 #   Alt-C       fzf: pick a subdirectory and cd into it
+#   fo <query>  fzf: pick a file and open it in its default app (xdg-open)
 #   Ctrl-J      fuzzy-jump to a bookmarked dir (list in ~/.config/fish/bm_dirs)
 #   z <name>    zoxide: jump to a frequently-used dir by partial name (zi = pick)
 #   yy          open yazi; on quit, cd to whatever directory you ended up in
@@ -48,7 +49,12 @@ set fish_cursor_replace_one underscore
 set fish_cursor_visual block
 
 # fzf: Ctrl-T (insert file path), Alt-C (cd into a subdir). Ctrl-R goes to atuin below.
+# fd-backed listing (fast, respects .gitignore); bat preview pane on Ctrl-T.
+# fo <query> (functions/fo.fish) fuzzy-picks a file and opens it via xdg-open.
 if command -q fzf
+    set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --exclude .git'
+    set -gx FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
+    set -gx FZF_CTRL_T_OPTS '--preview "bat --color=always --style=numbers --line-range=:200 {}"'
     fzf --fish | source
 end
 

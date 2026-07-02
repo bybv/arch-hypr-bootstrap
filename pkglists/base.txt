@@ -3,6 +3,7 @@ hyprland
 xdg-desktop-portal
 xdg-desktop-portal-hyprland
 xdg-desktop-portal-gtk
+xdg-utils
 qt5-wayland
 qt6-wayland
 
@@ -105,7 +106,7 @@ swayosd
 
 # Modern CLI replacements (aliased over the originals in fish config.fish)
 # eza→ls, bat→cat, dust→du, duf→df; zoxide→cd; git-delta = git diff pager.
-# (ripgrep/fd live in apps-dev.txt with the rest of the dev tooling.)
+# (ripgrep lives in apps-dev.txt with the rest of the dev tooling.)
 eza
 bat
 dust
@@ -115,8 +116,10 @@ git-delta
 
 # yazi companions + terminal editor:
 # fzf = picker for yazi z/Z jump and zoxide interactive select (-i);
+# fd = fast gitignore-aware file lister backing fzf (FZF_DEFAULT_COMMAND);
 # glow = markdown renderer for yazi's markdown opener;
 # micro = modeless nano-like $EDITOR, used by yazi's `e` and bulk-rename.
 fzf
+fd
 glow
 micro
