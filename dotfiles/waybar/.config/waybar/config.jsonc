@@ -10,6 +10,7 @@
   "modules-right":  [
     "custom/server",
     "custom/syncthing",
+    "custom/tailscale",
     "pulseaudio",
     "network",
     "battery"
@@ -38,6 +39,13 @@
   "custom/syncthing": {
     "exec": "~/.local/bin/waybar-syncthing-status",
     "interval": 15,
+    "return-type": "json",
+    "tooltip": true
+  },
+
+  "custom/tailscale": {
+    "exec": "~/.local/bin/waybar-tailscale-status",
+    "interval": 10,
     "return-type": "json",
     "tooltip": true
   },

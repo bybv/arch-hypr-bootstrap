@@ -2,6 +2,9 @@
 
 ## July 2026
 
+### 2026-07-30
+- Waybar: add `custom/tailscale` module (`waybar-tailscale-status`) showing Tailscale exit-node status — dim `ts` when connected with no exit node, green `ts→<host>` when routing through one, yellow if the chosen exit node is offline, red `ts ✗` when tailscaled is stopped/not logged in/not installed. Parses `tailscale status --json` with jq (already in base.txt); exit node is the peer with `ExitNode: true`. Tooltip carries the node's tailnet IP. Note: tailscale itself is not in any pkglist — the script degrades to the red state where it's absent.
+
 ### 2026-07-28
 - Hypr: bind the X1 Carbon G13 Copilot key (right of right-Alt) to open a terminal — `bind = $mod SHIFT, code:201, exec, $term`. Measured with `wev`: the firmware emits `Super_L + Shift_L + keycode 201` (sym `XF86Assistant`, evdev `KEY_F23`) as one burst on every press, all three down and up in the same millisecond, held for as long as the key is held. It therefore has to be bound as the full chord, not a bare key. Bound by keycode rather than `XF86Assistant` since the sym mapping is recent in xkeyboard-config. Rejected making it a duplicate Super: stripping the stray Shift needs a `keyd` chord rule, which means a root daemon grabbing the keyboard, an undocumented assumption (keyd's docs never confirm modifiers can participate in a chord), and buffering latency on every Shift/Super press — too much weight for a second Super.
 

@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Waybar custom module: Tailscale exit-node status.
+# Output: JSON {text, tooltip, class}.
+set -eu
+
+if ! command -v tailscale >/dev/null; then
+    printf '{"text": "ts ?", "tooltip": "tailscale not installed", "class": "down"}\n'
+    exit 0
+fi
+
+if ! STATUS=$(tailscale status --json 2>/dev/null); then
+    printf '{"text": "ts ✗", "tooltip": "tailscaled not running", "class": "down"}\n'
+    exit 0
+fi
+
+BACKEND=$(jq -r '.BackendState' <<<"$STATUS")
+if [ "$BACKEND" != "Running" ]; then
+    printf '{"text": "ts ✗", "tooltip": "Tailscale: %s", "class": "down"}\n' "$BACKEND"
+    exit 0
+fi
+
+# The exit node in use is the peer with ExitNode == true (absent when none is set)
+EXIT_INFO=$(jq -r '[.Peer[]? | select(.ExitNode)][0] // empty
+    | "\(.HostName)\t\(.Online)\t\(.TailscaleIPs[0] // "?")"' <<<"$STATUS")
+
+if [ -z "$EXIT_INFO" ]; then
+    printf '{"text": "ts", "tooltip": "Tailscale: no exit node", "class": "off"}\n'
+    exit 0
+fi
+
+HOST=$(cut -f1 <<<"$EXIT_INFO")
+ONLINE=$(cut -f2 <<<"$EXIT_INFO")
+IP=$(cut -f3 <<<"$EXIT_INFO")
+
+if [ "$ONLINE" = "true" ]; then
+    printf '{"text": "ts→%s", "tooltip": "Exit node: %s (%s)", "class": "on"}\n' "$HOST" "$HOST" "$IP"
+else
+    printf '{"text": "ts→%s", "tooltip": "Exit node %s (%s) is OFFLINE", "class": "warn"}\n' "$HOST" "$HOST" "$IP"
+fi

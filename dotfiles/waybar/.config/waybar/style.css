@@ -32,7 +32,8 @@ window#waybar {
 #network,
 #battery,
 #custom-server,
-#custom-syncthing {
+#custom-syncthing,
+#custom-tailscale {
   padding: 0 10px;
 }
 
@@ -46,6 +47,12 @@ window#waybar {
 #custom-syncthing.warn  { color: #e5c07b; }
 #custom-syncthing.error { color: #e06c75; }
 #custom-syncthing.down  { color: #555; }
+
+/* Tailscale exit-node status */
+#custom-tailscale.on   { color: #98c379; }
+#custom-tailscale.off  { color: #555; }
+#custom-tailscale.warn { color: #e5c07b; }
+#custom-tailscale.down { color: #e06c75; }
 
 /* Battery thresholds */
 #battery.warning  { color: #e5c07b; }
