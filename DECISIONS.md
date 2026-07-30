@@ -95,3 +95,14 @@ Syncthing → server → restic (local + Backblaze B2) flow.
 Each instance generates a unique device ID at first start, so joining a new
 machine is an inherent per-machine handshake (~5 min). Scripting it means
 fragile config-file munging that breaks on updates. Accepted as manual.
+
+## Keyboard mouse: wl-kbptr (AUR)
+Keyboard-driven pointing/clicking — grid labels, bisect, and an OpenCV
+auto-detect mode. No official-repo equivalent; the AUR package is maintained
+by the upstream author, which lowers (not removes) the usual AUR risk, and
+review-by-default covers it. Proven daily-driver on the KDE box first
+(2026-07). That machine runs a locally patched build (KWin support from
+PR #97 plus label-chip and detect-dedup patches — docs in
+`~/.local/src/wl-kbptr-kwin-docs/` there); the stow config here is kept
+strictly stock-compatible because wl-kbptr treats unknown config keys as a
+fatal parse error. Revisit when the patches land upstream.

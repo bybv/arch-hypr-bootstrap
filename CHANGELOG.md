@@ -3,6 +3,7 @@
 ## July 2026
 
 ### 2026-07-30
+- wl-kbptr: promote the keyboard-mouse workflow (proven on the KDE box since 2026-07-22) into the bootstrap — `wl-kbptr` in `aur-base.txt` (AUR-only, maintained by the upstream author), new `wl-kbptr` stow package with a stock-compatible detect-mode config (bigger labels `18 60% 100`, high-contrast dark-green fill + opaque white text; the KDE box's patched-build extras like `label_bg_color` are deliberately excluded — unknown config keys are a fatal parse error), and Hyprland binds: Super+G fast grid, Super+Shift+F precise bisect, Super+X OpenCV auto-detect (Super+F is fullscreen here, so the grid diverges from the KDE box's Meta+F). Rationale in DECISIONS.md "Keyboard mouse".
 - Waybar: add `custom/tailscale` module (`waybar-tailscale-status`) showing Tailscale exit-node status — dim `ts` when connected with no exit node, green `ts→<host>` when routing through one, yellow if the chosen exit node is offline, red `ts ✗` when tailscaled is stopped/not logged in/not installed. Parses `tailscale status --json` with jq (already in base.txt); exit node is the peer with `ExitNode: true`. Tooltip carries the node's tailnet IP. Note: tailscale itself is not in any pkglist — the script degrades to the red state where it's absent.
 
 ### 2026-07-28

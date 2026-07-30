@@ -1,0 +1,26 @@
+# wl-kbptr — keyboard-driven mouse pointing/clicking (AUR, by upstream
+# author). Full option list: config.example in the source repo.
+# Binds live in hyprland.conf: Super+G grid, Super+Shift+F precise,
+# Super+X detect.
+
+[general]
+# Type a 2-letter tile label, then it left-clicks the tile center immediately.
+# Esc cancels at any point. Backspace steps back.
+modes=tile,click
+
+# Detect mode (Super+X) draws its labels via floating mode.
+# label_font_size = <min px> <% of target height> <max px>; default 12 50% 100
+# bottoms out at unreadable 12px labels on small targets.
+# Colors: dark green fill at 80% alpha keeps >=6.8:1 contrast for the
+# full-opacity white text even over pure-white content (stock defaults are
+# ~53% alpha mid-green — often <3:1 over light apps).
+# NOTE: keep this file stock-compatible — unknown keys are a fatal parse
+# error. The KDE box runs a locally patched build with extras
+# (label_bg_color text chip, detect-target dedup); those options must NOT
+# appear here until upstreamed. See ~/.local/src/wl-kbptr-kwin-docs/ there.
+[mode_floating]
+label_font_size=18 60% 100
+label_color=#ffffffff
+label_select_color=#ffd60aff
+selectable_bg_color=#0b3d0bcc
+selectable_border_color=#4ade80ff

@@ -17,5 +17,12 @@ bibata-cursor-theme-bin
 # Config lives in the xdg-portal stow package; rationale in DECISIONS.md.
 xdg-desktop-portal-termfilechooser-hunkyburrito-git
 
+# Keyboard-driven mouse pointing/clicking (grid labels, bisect, and an
+# OpenCV auto-detect mode that labels clickable-looking areas). Not in any
+# official repo; the AUR package is maintained by the upstream author
+# (moverest). Config in the wl-kbptr stow package; binds in hyprland.conf
+# (Super+G / Super+Shift+F / Super+X). Rationale in DECISIONS.md.
+wl-kbptr
+
 # Optional power menu UI (also in AUR)
 # wlogout
