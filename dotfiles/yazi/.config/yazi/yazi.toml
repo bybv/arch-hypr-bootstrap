@@ -2,8 +2,13 @@
 ratio = [1, 3, 5]            # [parent, current, preview] of 9 (default [1,4,3])
 
 [opener]
+# -t (TUI) instead of -p: pager mode hard-wraps once at launch width and pipes
+# to less, so it never reflows. The TUI re-renders on every terminal resize at
+# min(--width, window width); glow caps auto-detected width at 120 and a
+# ~/.config/glow/glow.yml `width:` overrides detection entirely, so pass -w
+# explicitly to make the window the only limit.
 view-md = [
-  { run = 'glow -p "$@"', block = true, desc = "View (glow)" },
+  { run = 'glow -t -w 512 "$@"', block = true, desc = "View (glow)" },
 ]
 
 # Layer onto yazi's defaults (prepend_rules, not rules — bare rules would replace
